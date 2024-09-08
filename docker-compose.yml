@@ -1,0 +1,26 @@
+services:
+  opensearch-node:
+    image: opensearchproject/opensearch:latest
+    container_name: opensearch-node
+    environment:
+      - discovery.type=single-node
+      - OPENSEARCH_INITIAL_ADMIN_PASSWORD=hello#1World
+    ports:
+      - "9200:9200"
+      - "9600:9600"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+
+  opensearch-dashboards:
+    image: opensearchproject/opensearch-dashboards:latest
+    container_name: opensearch-dashboards
+    environment:
+      - OPENSEARCH_HOSTS=https://opensearch-node:9200
+      - OPENSEARCH_USERNAME=admin
+      - OPENSEARCH_PASSWORD=hello#1World
+    ports:
+      - "5601:5601"
+    depends_on:
+      - opensearch-node
