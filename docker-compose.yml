@@ -1,3 +1,4 @@
+version: '3'
 services:
   opensearch-node:
     image: opensearchproject/opensearch:latest
@@ -8,6 +9,8 @@ services:
     ports:
       - "9200:9200"
       - "9600:9600"
+    volumes:
+      - opensearch-data:/usr/share/opensearch/data  # Mount persistent volume
     ulimits:
       memlock:
         soft: -1
@@ -24,3 +27,6 @@ services:
       - "5601:5601"
     depends_on:
       - opensearch-node
+
+volumes:
+  opensearch-data:  # Define named volume for persistent storage
